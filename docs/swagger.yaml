@@ -1,0 +1,191 @@
+basePath: /api
+definitions:
+  model.Employee:
+    properties:
+      email:
+        example: malik@gmail.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: malik
+        type: string
+      position:
+        example: intern full stack developer
+        type: string
+      salary:
+        example: 3000000
+        type: number
+    type: object
+  model.UpdatedEmployee:
+    properties:
+      email:
+        example: malik@gmail.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: malik
+        type: string
+      position:
+        example: intern backend developer
+        type: string
+      salary:
+        example: 2000000
+        type: number
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server.
+  version: "1.0"
+paths:
+  /employees:
+    get:
+      description: Retrieve all employee data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Employee'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all employees
+      tags:
+      - employees
+    post:
+      consumes:
+      - application/json
+      description: Add a new employee to the database
+      parameters:
+      - description: Employee Data
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/model.Employee'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Employee'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new employee
+      tags:
+      - employees
+  /employees/{id}:
+    delete:
+      description: Delete employee by ID
+      parameters:
+      - description: Employee ID
+        example: 1
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid id
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete employee
+      tags:
+      - employees
+    get:
+      description: Retrieve a single employee by ID
+      parameters:
+      - description: Employee ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Employee'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get employee by ID
+      tags:
+      - employees
+    put:
+      consumes:
+      - application/json
+      description: Update employee data by ID
+      parameters:
+      - description: Employee ID
+        example: 1
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Employee Data
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdatedEmployee'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid id or body
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update employee
+      tags:
+      - employees
+swagger: "2.0"

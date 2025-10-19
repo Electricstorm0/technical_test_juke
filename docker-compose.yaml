@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: technical_test
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: 'mypass123' # kosong untuk development lokal
+      DB_NAME: juke
+    restart: always
+
+  db:
+    image: mysql:8.1
+    container_name: technical_db
+    environment:
+      MYSQL_ROOT_PASSWORD: 'mypass123'
+      MYSQL_DATABASE: juke
+    ports:
+      - '3307:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  db_data:
